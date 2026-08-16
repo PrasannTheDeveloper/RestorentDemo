@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "deploy": "astro build && wrangler pages deploy dist/client --project-name spiceroots-restaurant --branch main",
     "generate-types": "wrangler types"
   },
   "dependencies": {
