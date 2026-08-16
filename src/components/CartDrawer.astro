@@ -1,0 +1,222 @@
+---
+---
+
+<!-- Cart Drawer Overlay -->
+<div 
+  id="cartDrawer" 
+  class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex justify-end"
+>
+  <div 
+    id="cartDrawerBox" 
+    class="bg-[#14110E] border-l border-[#3D3224] w-full max-w-md h-full flex flex-col justify-between p-6 shadow-2xl transform translate-x-full transition-transform duration-300 relative text-left"
+  >
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-4 border-b border-[#26201A]">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-[#1C1814] border border-[#E5A84B]/40 flex items-center justify-center text-[#E5A84B]">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-serif-heading text-xl font-bold text-white">Your Order</h3>
+          <p id="cartDrawerSubtitle" class="text-xs text-[#A39B8E]">0 items selected</p>
+        </div>
+      </div>
+
+      <button 
+        id="closeCartBtn" 
+        aria-label="Close cart"
+        class="w-8 h-8 rounded-full bg-[#221C17] text-[#A39B8E] hover:text-white hover:bg-[#E5A84B] hover:text-[#0E0C0A] flex items-center justify-center transition-all cursor-pointer focus:outline-none"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Items List Container -->
+    <div id="cartItemsList" class="flex-1 overflow-y-auto py-4 space-y-4 pr-1 scrollbar-thin">
+      <!-- Empty State -->
+      <div id="emptyCartState" class="h-full flex flex-col items-center justify-center text-center space-y-3 text-[#A39B8E]">
+        <div class="w-16 h-16 rounded-full bg-[#1E1914] border border-[#2B231B] flex items-center justify-center text-3xl text-[#E5A84B]">
+          🍽️
+        </div>
+        <p class="text-sm font-medium">Your cart is currently empty</p>
+        <p class="text-xs text-[#736A5E] max-w-xs">Explore our specialties and add your favorite dishes to your order!</p>
+      </div>
+    </div>
+
+    <!-- Footer Summary & Checkout -->
+    <div class="pt-4 border-t border-[#26201A] space-y-4">
+      <div class="space-y-2 text-xs">
+        <div class="flex justify-between text-[#A39B8E]">
+          <span>Subtotal</span>
+          <span id="cartSubtotal" class="text-white font-medium">$0.00</span>
+        </div>
+        <div class="flex justify-between text-[#A39B8E]">
+          <span>Estimated Tax & Service</span>
+          <span id="cartTax" class="text-white font-medium">$0.00</span>
+        </div>
+        <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-[#221C17]">
+          <span>Total Amount</span>
+          <span id="cartTotal" class="text-[#E5A84B] font-serif-heading text-xl">$0.00</span>
+        </div>
+      </div>
+
+      <button 
+        id="checkoutBtn" 
+        disabled
+        class="w-full py-3.5 rounded-full bg-gradient-to-r from-[#F7C676] via-[#E5A84B] to-[#C88D34] text-[#0E0C0A] font-bold text-sm hover:brightness-110 shadow-[0_4px_20px_rgba(229,168,75,0.3)] active:scale-95 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Proceed to Checkout
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  interface CartItem {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    quantity: number;
+  }
+
+  let cart: CartItem[] = [];
+
+  const drawer = document.getElementById('cartDrawer');
+  const drawerBox = document.getElementById('cartDrawerBox');
+  const closeBtn = document.getElementById('closeCartBtn');
+  const itemsContainer = document.getElementById('cartItemsList');
+  const emptyState = document.getElementById('emptyCartState');
+  const subtitle = document.getElementById('cartDrawerSubtitle');
+  const subtotalEl = document.getElementById('cartSubtotal');
+  const taxEl = document.getElementById('cartTax');
+  const totalEl = document.getElementById('cartTotal');
+  const checkoutBtn = document.getElementById('checkoutBtn') as HTMLButtonElement;
+  const countBadge = document.getElementById('cartCountBadge');
+
+  function openCart() {
+    drawer?.classList.remove('opacity-0', 'pointer-events-none');
+    drawerBox?.classList.remove('translate-x-full');
+    drawerBox?.classList.add('translate-x-0');
+  }
+
+  function closeCart() {
+    drawer?.classList.add('opacity-0', 'pointer-events-none');
+    drawerBox?.classList.remove('translate-x-0');
+    drawerBox?.classList.add('translate-x-full');
+  }
+
+  function updateCartUI() {
+    const totalCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+    if (countBadge) {
+      countBadge.textContent = totalCount.toString();
+      countBadge.classList.add('scale-125');
+      setTimeout(() => countBadge.classList.remove('scale-125'), 200);
+    }
+
+    if (subtitle) {
+      subtitle.textContent = `${totalCount} item${totalCount === 1 ? '' : 's'} selected`;
+    }
+
+    if (cart.length === 0) {
+      if (itemsContainer && emptyState) {
+        itemsContainer.innerHTML = '';
+        itemsContainer.appendChild(emptyState);
+        emptyState.classList.remove('hidden');
+      }
+      if (subtotalEl) subtotalEl.textContent = '$0.00';
+      if (taxEl) taxEl.textContent = '$0.00';
+      if (totalEl) totalEl.textContent = '$0.00';
+      if (checkoutBtn) checkoutBtn.disabled = true;
+      return;
+    }
+
+    if (emptyState) emptyState.classList.add('hidden');
+    if (itemsContainer) itemsContainer.innerHTML = '';
+
+    let subtotal = 0;
+
+    cart.forEach(item => {
+      subtotal += item.price * item.quantity;
+      const itemEl = document.createElement('div');
+      itemEl.className = 'flex items-center gap-3 p-3 bg-[#1C1814] border border-[#2B231B] rounded-2xl';
+      itemEl.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" class="w-14 h-14 rounded-xl object-cover border border-[#E5A84B]/30" />
+        <div class="flex-1">
+          <h4 class="text-xs font-bold text-white">${item.name}</h4>
+          <span class="text-xs text-[#E5A84B] font-semibold">$${(item.price * item.quantity).toFixed(2)}</span>
+        </div>
+        <div class="flex items-center gap-2 bg-[#0E0C0A] border border-[#332A20] rounded-lg px-2 py-1">
+          <button class="decrease-qty-btn text-[#A39B8E] hover:text-white text-xs font-bold px-1" data-id="${item.id}">-</button>
+          <span class="text-xs font-bold text-white px-1">${item.quantity}</span>
+          <button class="increase-qty-btn text-[#E5A84B] hover:text-white text-xs font-bold px-1" data-id="${item.id}">+</button>
+        </div>
+      `;
+      itemsContainer?.appendChild(itemEl);
+    });
+
+    const tax = subtotal * 0.08;
+    const total = subtotal + tax;
+
+    if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (taxEl) taxEl.textContent = `$${tax.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+    if (checkoutBtn) checkoutBtn.disabled = false;
+
+    // Attach quantity event handlers
+    document.querySelectorAll('.decrease-qty-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const target = cart.find(i => i.id === id);
+        if (target) {
+          if (target.quantity > 1) {
+            target.quantity -= 1;
+          } else {
+            cart = cart.filter(i => i.id !== id);
+          }
+          updateCartUI();
+        }
+      });
+    });
+
+    document.querySelectorAll('.increase-qty-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const target = cart.find(i => i.id === id);
+        if (target) {
+          target.quantity += 1;
+          updateCartUI();
+        }
+      });
+    });
+  }
+
+  // Listen to add-to-cart custom event
+  window.addEventListener('add-to-cart', ((e: CustomEvent) => {
+    const { id, name, price, image } = e.detail;
+    const existing = cart.find(i => i.id === id);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ id, name, price, image, quantity: 1 });
+    }
+    updateCartUI();
+    openCart();
+  }) as EventListener);
+
+  window.addEventListener('open-cart', openCart);
+  closeBtn?.addEventListener('click', closeCart);
+  drawer?.addEventListener('click', (e) => {
+    if (e.target === drawer) closeCart();
+  });
+
+  checkoutBtn?.addEventListener('click', () => {
+    alert('Thank you for ordering with SpiceRoots! Your order has been dispatched to our kitchen.');
+    cart = [];
+    updateCartUI();
+    closeCart();
+  });
+</script>

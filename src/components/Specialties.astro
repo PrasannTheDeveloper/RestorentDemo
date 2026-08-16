@@ -1,0 +1,231 @@
+---
+const dishes = [
+  {
+    id: "dish-1",
+    name: "Paneer Butter Masala",
+    category: "main",
+    price: 12.99,
+    rating: 4.8,
+    image: "/images/paneer-butter-masala.png",
+    description: "Cubes of fresh cottage cheese simmered in a rich tomato, butter, and cashew nut gravy, garnished with cream swirl.",
+    spicyLevel: 2
+  },
+  {
+    id: "dish-2",
+    name: "Hyderabadi Biryani",
+    category: "biryani",
+    price: 14.99,
+    rating: 4.9,
+    image: "/images/hyderabadi-biryani.png",
+    description: "Authentic dum biryani cooked with layered fragrant basmati rice, tender chicken, saffron, fried onions, and secret spices.",
+    spicyLevel: 3
+  },
+  {
+    id: "dish-3",
+    name: "Grilled Chicken",
+    category: "main",
+    price: 13.99,
+    rating: 4.7,
+    image: "/images/grilled-chicken.png",
+    description: "Succulent chicken breast marinated in crushed herbs and garlic, charred over open flame served with roasted vegetables.",
+    spicyLevel: 1
+  },
+  {
+    id: "dish-4",
+    name: "Chocolate Lava Cake",
+    category: "desserts",
+    price: 6.99,
+    rating: 4.6,
+    image: "/images/chocolate-lava-cake.png",
+    description: "Warm Belgian dark chocolate cake with a rich molten center, served alongside vanilla bean ice cream.",
+    spicyLevel: 0
+  },
+  {
+    id: "dish-5",
+    name: "Crispy Samosa Platter",
+    category: "starters",
+    price: 7.99,
+    rating: 4.8,
+    image: "/images/starter-samosa.png",
+    description: "Flaky pastry stuffed with spiced potato and green peas, served with mint-coriander and sweet tamarind chutneys.",
+    spicyLevel: 2
+  },
+  {
+    id: "dish-6",
+    name: "Mango Lassi Royal",
+    category: "beverages",
+    price: 4.99,
+    rating: 4.9,
+    image: "/images/hero-curry-dish.png",
+    description: "Chilled creamy yogurt drink blended with Alphonso mango pulp, cardamom, pistachios, and saffron strands.",
+    spicyLevel: 0
+  }
+];
+
+const categories = [
+  { id: "all", label: "All Dishes", icon: "🍛" },
+  { id: "starters", label: "Starters", icon: "🥟" },
+  { id: "main", label: "Main Course", icon: "🍲" },
+  { id: "biryani", label: "Biryani", icon: "🍚" },
+  { id: "desserts", label: "Desserts", icon: "🍨" },
+  { id: "beverages", label: "Beverages", icon: "🥤" }
+];
+---
+
+<section id="specialties" class="py-10 sm:py-16 md:py-24 bg-[#0E0C0A] relative">
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    
+    <!-- Section Title Divider Header -->
+    <div class="text-center space-y-2 sm:space-y-3 mb-6 sm:mb-12">
+      <div class="flex items-center justify-center gap-3 sm:gap-4 text-[#E5A84B]">
+        <span class="h-[1px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#E5A84B]"></span>
+        <span class="font-script-sub text-xl sm:text-2xl text-[#F7C676]">Chef Selection</span>
+        <span class="h-[1px] w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#E5A84B]"></span>
+      </div>
+      <h2 class="font-serif-heading text-2xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+        Our Specialties
+      </h2>
+      <div class="w-14 sm:w-16 h-[2px] bg-[#E5A84B] mx-auto rounded-full"></div>
+    </div>
+
+    <!-- Category Filters Navigation -->
+    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-4 mb-6 sm:mb-12">
+      {categories.map((cat) => (
+        <button
+          data-category={cat.id}
+          class={`category-tab flex flex-col items-center justify-center gap-1 p-2 sm:p-3 rounded-xl sm:rounded-2xl transition-all duration-300 group cursor-pointer focus:outline-none ${
+            cat.id === 'all'
+              ? 'bg-[#1C1814] border border-[#E5A84B] text-[#E5A84B] shadow-[0_0_15px_rgba(229,168,75,0.2)]'
+              : 'bg-[#14110E] border border-[#28211B] text-[#A39B8E] hover:border-[#E5A84B]/50 hover:text-white'
+          }`}
+        >
+          <div class={`w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-base sm:text-xl transition-all ${
+            cat.id === 'all' ? 'bg-[#E5A84B] text-[#0E0C0A]' : 'bg-[#1E1914] text-[#E5A84B] group-hover:bg-[#E5A84B] group-hover:text-[#0E0C0A]'
+          }`}>
+            {cat.icon}
+          </div>
+          <span class="text-[9px] sm:text-xs font-semibold tracking-tight text-center truncate w-full">{cat.label}</span>
+        </button>
+      ))}
+    </div>
+
+    <!-- Dish Grid (STRICTLY 3 COLUMNS ON MOBILE) -->
+    <div id="dishGrid" class="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6">
+      {dishes.map((dish) => (
+        <div 
+          data-category={dish.category}
+          class="dish-card bg-[#161310] border border-[#26201A] hover:border-[#E5A84B]/50 rounded-xl sm:rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between hover:shadow-[0_10px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(229,168,75,0.15)]"
+        >
+          <!-- Image Container -->
+          <div class="relative overflow-hidden aspect-square sm:aspect-[4/3] bg-[#1F1A15] cursor-pointer dish-detail-trigger" data-dish-id={dish.id}>
+            <img 
+              src={dish.image} 
+              alt={dish.name} 
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#161310] via-transparent to-transparent opacity-60"></div>
+            
+            <!-- Rating Pill Top-Right Badge -->
+            <div class="absolute top-1 right-1 sm:top-2 sm:right-2 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-[#0E0C0A]/80 backdrop-blur-sm border border-[#E5A84B]/40 text-[#E5A84B] text-[9px] sm:text-xs font-bold shadow-md">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 fill-current text-[#E5A84B]" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+              <span>{dish.rating}</span>
+            </div>
+          </div>
+
+          <!-- Dish Info -->
+          <div class="p-2 sm:p-5 flex-1 flex flex-col justify-between space-y-2 sm:space-y-4">
+            <div>
+              <h3 class="font-serif-heading text-[11px] sm:text-lg font-bold text-white group-hover:text-[#E5A84B] transition-colors leading-tight truncate">
+                {dish.name}
+              </h3>
+              
+              <p class="hidden sm:block text-xs text-[#A39B8E] mt-2 line-clamp-2 leading-relaxed">
+                {dish.description}
+              </p>
+            </div>
+
+            <!-- Price & Add Button Row -->
+            <div class="flex items-center justify-between pt-1.5 sm:pt-2 border-t border-[#221C16]">
+              <span class="font-bold text-xs sm:text-lg text-white">
+                ${dish.price.toFixed(2)}
+              </span>
+
+              <button
+                class="add-to-cart-btn w-6 h-6 sm:w-9 sm:h-9 rounded-md sm:rounded-lg bg-[#E5A84B] hover:bg-[#F7C676] text-[#0E0C0A] font-bold flex items-center justify-center shadow-md active:scale-95 transition-all cursor-pointer focus:outline-none"
+                data-dish-id={dish.id}
+                data-dish-name={dish.name}
+                data-dish-price={dish.price}
+                data-dish-image={dish.image}
+                aria-label={`Add ${dish.name} to cart`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 sm:w-5 sm:h-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Category Filter functionality
+  const tabs = document.querySelectorAll('.category-tab');
+  const cards = document.querySelectorAll('.dish-card');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const cat = tab.getAttribute('data-category');
+
+      // Update active tab UI
+      tabs.forEach(t => {
+        t.classList.remove('bg-[#1C1814]', 'border-[#E5A84B]', 'text-[#E5A84B]', 'shadow-[0_0_15px_rgba(229,168,75,0.2)]');
+        t.classList.add('bg-[#14110E]', 'border-[#28211B]', 'text-[#A39B8E]');
+        const iconDiv = t.querySelector('div');
+        if (iconDiv) {
+          iconDiv.classList.remove('bg-[#E5A84B]', 'text-[#0E0C0A]');
+          iconDiv.classList.add('bg-[#1E1914]', 'text-[#E5A84B]');
+        }
+      });
+
+      tab.classList.add('bg-[#1C1814]', 'border-[#E5A84B]', 'text-[#E5A84B]', 'shadow-[0_0_15px_rgba(229,168,75,0.2)]');
+      tab.classList.remove('bg-[#14110E]', 'border-[#28211B]', 'text-[#A39B8E]');
+      const activeIcon = tab.querySelector('div');
+      if (activeIcon) {
+        activeIcon.classList.add('bg-[#E5A84B]', 'text-[#0E0C0A]');
+        activeIcon.classList.remove('bg-[#1E1914]', 'text-[#E5A84B]');
+      }
+
+      // Filter cards
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (cat === 'all' || cardCat === cat) {
+          (card as HTMLElement).style.display = 'flex';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Add to Cart event dispatchers
+  document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.getAttribute('data-dish-id');
+      const name = btn.getAttribute('data-dish-name');
+      const price = parseFloat(btn.getAttribute('data-dish-price') || '0');
+      const image = btn.getAttribute('data-dish-image');
+
+      window.dispatchEvent(new CustomEvent('add-to-cart', {
+        detail: { id, name, price, image }
+      }));
+    });
+  });
+</script>

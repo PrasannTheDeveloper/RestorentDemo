@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Hero from "../components/Hero.astro";
+import Specialties from "../components/Specialties.astro";
+import AboutSection from "../components/AboutSection.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Footer from "../components/Footer.astro";
+import ReservationModal from "../components/ReservationModal.astro";
+import CartDrawer from "../components/CartDrawer.astro";
+import SearchModal from "../components/SearchModal.astro";
+---
+
+<Layout>
+  <Navbar />
+  <main>
+    <Hero />
+    <Specialties />
+    <AboutSection />
+    <Testimonials />
+  </main>
+  <Footer />
+
+  <!-- Interactive Modals & Drawers -->
+  <ReservationModal />
+  <CartDrawer />
+  <SearchModal />
+</Layout>

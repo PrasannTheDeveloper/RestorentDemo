@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Specialties from "../components/Specialties.astro";
+import Footer from "../components/Footer.astro";
+import ReservationModal from "../components/ReservationModal.astro";
+import CartDrawer from "../components/CartDrawer.astro";
+import SearchModal from "../components/SearchModal.astro";
+---
+
+<Layout>
+  <Navbar />
+  <main class="pt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-12">
+      <span class="font-script-sub text-3xl text-[#E5A84B]">Authentic Culinary Delights</span>
+      <h1 class="font-serif-heading text-5xl font-bold text-white mt-2">Full Menu</h1>
+      <div class="w-20 h-1 bg-[#E5A84B] mx-auto mt-4 rounded-full"></div>
+    </div>
+    <Specialties />
+  </main>
+  <Footer />
+  <ReservationModal />
+  <CartDrawer />
+  <SearchModal />
+</Layout>

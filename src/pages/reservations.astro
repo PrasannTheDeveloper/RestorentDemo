@@ -1,0 +1,56 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import ReservationModal from "../components/ReservationModal.astro";
+import CartDrawer from "../components/CartDrawer.astro";
+import SearchModal from "../components/SearchModal.astro";
+---
+
+<Layout>
+  <Navbar />
+  <main class="py-16 md:py-24 bg-[#0E0C0A]">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <span class="font-script-sub text-3xl text-[#E5A84B]">Reserve Your Table</span>
+      <h1 class="font-serif-heading text-5xl font-bold text-white mt-2 mb-4">Table Booking & VIP Dining</h1>
+      <p class="text-[#A39B8E] max-w-xl mx-auto mb-10">
+        Experience exquisite dining with family and friends. Reserve your table online or contact our host team directly.
+      </p>
+
+      <button 
+        id="pageOpenReservationBtn" 
+        class="px-10 py-4 rounded-full bg-gradient-to-r from-[#F7C676] via-[#E5A84B] to-[#C88D34] text-[#0E0C0A] font-bold text-lg hover:brightness-110 shadow-[0_4px_25px_rgba(229,168,75,0.4)] active:scale-95 transition-all cursor-pointer"
+      >
+        Click to Book a Table Now
+      </button>
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+        <div class="bg-[#161310] border border-[#2B231B] p-6 rounded-2xl">
+          <div class="text-2xl mb-2">🕒</div>
+          <h3 class="font-bold text-white mb-1">Opening Hours</h3>
+          <p class="text-xs text-[#A39B8E]">Mon - Sun: 11:30 AM - 11:00 PM</p>
+        </div>
+        <div class="bg-[#161310] border border-[#2B231B] p-6 rounded-2xl">
+          <div class="text-2xl mb-2">📞</div>
+          <h3 class="font-bold text-white mb-1">Phone Reservations</h3>
+          <p class="text-xs text-[#A39B8E]">+1 (234) 567-890</p>
+        </div>
+        <div class="bg-[#161310] border border-[#2B231B] p-6 rounded-2xl">
+          <div class="text-2xl mb-2">🎉</div>
+          <h3 class="font-bold text-white mb-1">Private Events</h3>
+          <p class="text-xs text-[#A39B8E]">events@spiceroots.com</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+  <ReservationModal />
+  <CartDrawer />
+  <SearchModal />
+</Layout>
+
+<script>
+  document.getElementById('pageOpenReservationBtn')?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('open-reservation'));
+  });
+</script>

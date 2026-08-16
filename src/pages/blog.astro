@@ -1,0 +1,68 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import ReservationModal from "../components/ReservationModal.astro";
+import CartDrawer from "../components/CartDrawer.astro";
+import SearchModal from "../components/SearchModal.astro";
+
+const posts = [
+  {
+    title: "The Art of Slow-Dum Biryani Cooking",
+    date: "August 12, 2025",
+    author: "Executive Chef Rajesh",
+    snippet: "Discover how we blend 18 authentic spices and cook basmati rice in sealed copper pots to perfection.",
+    image: "/images/hyderabadi-biryani.png"
+  },
+  {
+    title: "Secret Spices Behind Our Butter Gravies",
+    date: "July 28, 2025",
+    author: "Culinary Director Anita",
+    snippet: "Explore the magic of roasted cumin, green cardamom, and fresh mace in crafting our creamy paneer and curry sauces.",
+    image: "/images/paneer-butter-masala.png"
+  },
+  {
+    title: "Pairing Wine & Craft Beverages With Indian Spices",
+    date: "July 15, 2025",
+    author: "Sommelier David",
+    snippet: "Learn which wines and refreshing lassis pair best with bold chili, garlic, and clay-oven grilled dishes.",
+    image: "/images/hero-curry-dish.png"
+  }
+];
+---
+
+<Layout>
+  <Navbar />
+  <main class="py-16 md:py-24 bg-[#0E0C0A]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="font-script-sub text-3xl text-[#E5A84B]">Culinary Insights</span>
+        <h1 class="font-serif-heading text-5xl font-bold text-white mt-2 mb-4">Latest From Our Blog</h1>
+        <div class="w-20 h-1 bg-[#E5A84B] mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {posts.map((post) => (
+          <article class="bg-[#161310] border border-[#2B231B] hover:border-[#E5A84B]/40 rounded-2xl overflow-hidden transition-all group">
+            <div class="aspect-[16/9] overflow-hidden bg-[#1F1A15]">
+              <img src={post.image} alt={post.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="p-6 space-y-3">
+              <div class="flex items-center justify-between text-xs text-[#A39B8E]">
+                <span>{post.date}</span>
+                <span>By {post.author}</span>
+              </div>
+              <h3 class="font-serif-heading text-xl font-bold text-white group-hover:text-[#E5A84B] transition-colors">{post.title}</h3>
+              <p class="text-xs text-[#C7BFB4] leading-relaxed">{post.snippet}</p>
+              <a href="#" class="inline-block text-xs font-bold text-[#E5A84B] hover:underline pt-2">Read Full Article →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer />
+  <ReservationModal />
+  <CartDrawer />
+  <SearchModal />
+</Layout>

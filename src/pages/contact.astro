@@ -1,0 +1,107 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import ReservationModal from "../components/ReservationModal.astro";
+import CartDrawer from "../components/CartDrawer.astro";
+import SearchModal from "../components/SearchModal.astro";
+---
+
+<Layout>
+  <Navbar />
+  <main class="py-16 md:py-24 bg-[#0E0C0A]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="font-script-sub text-3xl text-[#E5A84B]">Get In Touch</span>
+        <h1 class="font-serif-heading text-5xl font-bold text-white mt-2 mb-4">Contact SpiceRoots</h1>
+        <div class="w-20 h-1 bg-[#E5A84B] mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <!-- Contact Form -->
+        <div class="lg:col-span-7 bg-[#161310] border border-[#2B231B] p-8 rounded-3xl space-y-6">
+          <h2 class="font-serif-heading text-2xl font-bold text-white">Send Us a Message</h2>
+          <form id="contactPageForm" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-[#D1C9BF] mb-1">Your Name</label>
+                <input type="text" required placeholder="John Doe" class="w-full bg-[#0E0C0A] border border-[#2B231B] focus:border-[#E5A84B] rounded-xl px-4 py-3 text-xs text-white focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-[#D1C9BF] mb-1">Your Email</label>
+                <input type="email" required placeholder="john@example.com" class="w-full bg-[#0E0C0A] border border-[#2B231B] focus:border-[#E5A84B] rounded-xl px-4 py-3 text-xs text-white focus:outline-none" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-[#D1C9BF] mb-1">Subject</label>
+              <input type="text" required placeholder="Table booking enquiry, event booking..." class="w-full bg-[#0E0C0A] border border-[#2B231B] focus:border-[#E5A84B] rounded-xl px-4 py-3 text-xs text-white focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-[#D1C9BF] mb-1">Message</label>
+              <textarea rows="4" required placeholder="Type your message here..." class="w-full bg-[#0E0C0A] border border-[#2B231B] focus:border-[#E5A84B] rounded-xl px-4 py-3 text-xs text-white focus:outline-none resize-none"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3.5 rounded-full bg-gradient-to-r from-[#F7C676] via-[#E5A84B] to-[#C88D34] text-[#0E0C0A] font-bold text-sm hover:brightness-110 shadow-lg cursor-pointer">
+              Send Message
+            </button>
+            <p id="contactSuccessMsg" class="text-center text-xs text-[#E5A84B] hidden font-semibold">Thank you! Your message has been sent successfully.</p>
+          </form>
+        </div>
+
+        <!-- Location Info & Hours -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-[#161310] border border-[#2B231B] p-8 rounded-3xl space-y-6">
+            <h2 class="font-serif-heading text-2xl font-bold text-white">Visit Our Restaurant</h2>
+            
+            <div class="space-y-4 text-xs text-[#C7BFB4]">
+              <div class="flex items-start gap-3">
+                <span class="text-xl text-[#E5A84B]">📍</span>
+                <div>
+                  <h4 class="font-bold text-white text-sm">Address</h4>
+                  <p>123 Foodie Street, Flavor Town, FT 12345</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="text-xl text-[#E5A84B]">📞</span>
+                <div>
+                  <h4 class="font-bold text-white text-sm">Phone</h4>
+                  <p>+1 234 567 890 / +1 987 654 321</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="text-xl text-[#E5A84B]">✉️</span>
+                <div>
+                  <h4 class="font-bold text-white text-sm">Email</h4>
+                  <p>info@spiceroots.com / reservations@spiceroots.com</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="text-xl text-[#E5A84B]">🕒</span>
+                <div>
+                  <h4 class="font-bold text-white text-sm">Working Hours</h4>
+                  <p>Monday - Sunday: 11:30 AM - 11:00 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+  <Footer />
+  <ReservationModal />
+  <CartDrawer />
+  <SearchModal />
+</Layout>
+
+<script>
+  document.getElementById('contactPageForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('contactSuccessMsg');
+    if (msg) msg.classList.remove('hidden');
+    (e.target as HTMLFormElement).reset();
+  });
+</script>

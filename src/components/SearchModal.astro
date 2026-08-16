@@ -1,0 +1,84 @@
+---
+---
+
+<!-- Search Modal -->
+<div 
+  id="searchModal" 
+  class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start justify-center pt-20 p-4 opacity-0 pointer-events-none transition-opacity duration-300"
+>
+  <div 
+    id="searchModalBox" 
+    class="bg-[#161310] border border-[#3D3224] rounded-3xl w-full max-w-xl p-6 shadow-2xl transform -translate-y-4 transition-transform duration-300 relative text-left"
+  >
+    <div class="flex items-center gap-3 border-b border-[#2C241B] pb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#E5A84B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input 
+        id="searchInput" 
+        type="text" 
+        placeholder="Search for Paneer, Biryani, Lava Cake..." 
+        class="w-full bg-transparent text-sm text-white placeholder-[#6B6154] focus:outline-none"
+      />
+      <button 
+        id="closeSearchBtn" 
+        class="text-xs text-[#A39B8E] hover:text-white px-2 py-1 bg-[#221C17] rounded-lg cursor-pointer"
+      >
+        ESC
+      </button>
+    </div>
+
+    <!-- Quick Suggestions -->
+    <div class="pt-4">
+      <p class="text-[11px] font-semibold uppercase tracking-wider text-[#7A7164] mb-3">Popular Searches</p>
+      <div class="flex flex-wrap gap-2">
+        <button class="quick-search-tag px-3 py-1.5 rounded-full bg-[#1F1A15] border border-[#2B231B] text-xs text-[#D1C9BF] hover:border-[#E5A84B] hover:text-[#E5A84B] transition-colors cursor-pointer">Paneer Butter Masala</button>
+        <button class="quick-search-tag px-3 py-1.5 rounded-full bg-[#1F1A15] border border-[#2B231B] text-xs text-[#D1C9BF] hover:border-[#E5A84B] hover:text-[#E5A84B] transition-colors cursor-pointer">Hyderabadi Biryani</button>
+        <button class="quick-search-tag px-3 py-1.5 rounded-full bg-[#1F1A15] border border-[#2B231B] text-xs text-[#D1C9BF] hover:border-[#E5A84B] hover:text-[#E5A84B] transition-colors cursor-pointer">Grilled Chicken</button>
+        <button class="quick-search-tag px-3 py-1.5 rounded-full bg-[#1F1A15] border border-[#2B231B] text-xs text-[#D1C9BF] hover:border-[#E5A84B] hover:text-[#E5A84B] transition-colors cursor-pointer">Chocolate Lava Cake</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const searchModal = document.getElementById('searchModal');
+  const searchModalBox = document.getElementById('searchModalBox');
+  const closeSearchBtn = document.getElementById('closeSearchBtn');
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+
+  function openSearch() {
+    searchModal?.classList.remove('opacity-0', 'pointer-events-none');
+    searchModalBox?.classList.remove('-translate-y-4');
+    searchModalBox?.classList.add('translate-y-0');
+    setTimeout(() => searchInput?.focus(), 100);
+  }
+
+  function closeSearch() {
+    searchModal?.classList.add('opacity-0', 'pointer-events-none');
+    searchModalBox?.classList.remove('translate-y-0');
+    searchModalBox?.classList.add('-translate-y-4');
+  }
+
+  window.addEventListener('open-search', openSearch);
+  closeSearchBtn?.addEventListener('click', closeSearch);
+  searchModal?.addEventListener('click', (e) => {
+    if (e.target === searchModal) closeSearch();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSearch();
+  });
+
+  document.querySelectorAll('.quick-search-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      const text = tag.textContent;
+      if (searchInput && text) {
+        searchInput.value = text;
+        closeSearch();
+        const specialtiesEl = document.getElementById('specialties');
+        specialtiesEl?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
